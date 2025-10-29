@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  userId    String   @unique // Clerk user ID
+  email     String   @unique
+  name      String
+
+  codeExecutions CodeExecution[]
+  snippets       Snippet[]
+  snippetComments SnippetComment[]
+  stars          Star[]
+}
+
+model CodeExecution {
+  id       String   @id @default(cuid())
+  userId   String
+  language String
+  code     String
+  output   String?
+  error    String?
+
+  user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Snippet {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  language  String
+  code      String
+  userName  String
+
+  user     User             @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  comments SnippetComment[]
+  stars    Star[]
+
+  @@index([userId])
+}
+
+model SnippetComment {
+  id        String   @id @default(cuid())
+  snippetId String
+  userId    String
+  userName  String
+  content   String 
+
+  snippet Snippet @relation(fields: [snippetId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@index([snippetId])
+}
+
+model Star {
+  id        String   @id @default(cuid())
+  userId    String
+  snippetId String
+
+  user    User    @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  snippet Snippet @relation(fields: [snippetId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, snippetId])
+  @@index([userId])
+  @@index([snippetId])
+}
