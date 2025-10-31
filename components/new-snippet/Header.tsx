@@ -1,71 +1,58 @@
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
-import { Blocks, Code2, LogIn } from "lucide-react";
+"use client";
+
 import Link from "next/link";
+import { Blocks, Code2 } from "lucide-react";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { ModeToggle } from "@/components/ModeToggle";
+import RunButton from "@/components/new-snippet/RunButton";
+import SaveButton from "@/components/new-snippet/SaveButton";
 
-export default async function Header() {
+export default function Header() {
   return (
-    <div
-      className="flex items-center lg:justify-between justify-center 
-    bg-[#0a0a0f]/80 backdrop-blur-xl p-6 mb-4 rounded-lg"
-    >
-        <div className="hidden lg:flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-3 group relative">
-            <div
-              className="absolute -inset-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg opacity-0 
-                group-hover:opacity-100 transition-all duration-500 blur-xl"
-            />
-            <div
-              className="relative bg-gradient-to-br from-[#1a1a2e] to-[#0a0a0f] p-2 rounded-xl ring-1
-              ring-white/10 group-hover:ring-white/20 transition-all"
-            >
-              <Blocks className="size-6 text-blue-400 transform -rotate-6 group-hover:rotate-0 transition-transform duration-500" />
-            </div>
+    <header className="sticky top-0 z-50 bg-white/80 dark:bg-[#0b0b0f]/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 shadow-sm transition-colors">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-2">
+        <Link href="/" className="flex items-center gap-2 group">
+          <div className="relative flex items-center justify-center w-9 h-9 rounded-lg bg-gray-100 dark:bg-gray-800 ring-1 ring-gray-300 dark:ring-gray-700 transition-colors">
+            <Blocks className="w-4.5 h-4.5 text-blue-600 dark:text-blue-400 transition-colors" />
+          </div>
+          <div className="leading-tight">
+            <h1 className="font-semibold text-gray-800 dark:text-gray-100 tracking-tight">
+              Codium
+            </h1>
+            <p className="text-[10px] text-gray-500 dark:text-gray-400 -mt-0.5">
+              Web Code Editor
+            </p>
+          </div>
+        </Link>
 
-            <div className="flex flex-col">
-              <span className="block text-lg font-semibold bg-gradient-to-r from-blue-400 via-blue-300 to-purple-400 text-transparent bg-clip-text">
-                Codium
-              </span>
-              <span className="block text-xs text-blue-400/60 font-medium">
-                Code Editor
-              </span>
-            </div>
+        <nav className="hidden sm:flex items-center justify-center absolute left-1/2 -translate-x-1/2">
+          <Link
+            href="/snippets"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300
+            hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 transition-all"
+          >
+            <Code2 className="w-4 h-4" />
+            Snippets
           </Link>
+        </nav>
 
-          <nav className="flex items-center space-x-1">
-            <Link
-              href="/snippets"
-              className="relative group flex items-center gap-2 px-4 py-1.5 rounded-lg text-gray-300 bg-gray-800/50 
-                hover:bg-blue-500/10 border border-gray-800 hover:border-blue-500/50 transition-all duration-300 shadow-lg overflow-hidden"
-            >
-              <div
-                className="absolute inset-0 bg-gradient-to-r from-blue-500/10 
-                to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity"
-              />
-              <Code2 className="w-4 h-4 relative z-10 group-hover:rotate-3 transition-transform" />
-              <span
-                className="text-sm font-medium relative z-10 group-hover:text-white
-                 transition-colors"
-              >
-                Snippets
-              </span>
-            </Link>
-          </nav>
+        <div className="flex items-center gap-1.5">
+          <RunButton />
+          <SaveButton />
+          <ModeToggle />
+
+          <SignedIn>
+            <UserButton afterSignOutUrl="/" />
+          </SignedIn>
+          <SignedOut>
+            <SignInButton mode="modal">
+              <button className="text-sm px-3 py-1.5 rounded-md bg-blue-600 hover:bg-blue-700 text-white transition-colors">
+                Sign in
+              </button>
+            </SignInButton>
+          </SignedOut>
         </div>
-
-        <SignedIn>
-          <UserButton showName={true} />
-        </SignedIn>
-        <SignedOut>
-          <SignInButton mode="modal">
-            <button>
-              <LogIn className="w-4 h-4" />
-              <span>Sign in</span>
-            </button>
-          </SignInButton>
-        </SignedOut>
-
-
-        
-    </div>
+      </div>
+    </header>
   );
 }
