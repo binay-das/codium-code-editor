@@ -87,13 +87,13 @@ export default function SnippetCard({
         </pre>
       </CardContent>
 
-      <CardFooter className="text-xs text-muted-foreground">
+      {/* <CardFooter className="text-xs text-muted-foreground">
         {createdAt ? (
           <span>Created on {new Date(createdAt).toLocaleDateString()}</span>
         ) : (
           <span>Untitled snippet</span>
         )}
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   );
 }
