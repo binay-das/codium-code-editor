@@ -1,3 +1,4 @@
+import { ModeToggle } from "@/components/ModeToggle";
 import EditorPanel from "@/components/new-snippet/EditorPanel";
 import Header from "@/components/new-snippet/Header";
 import OutputPanel from "@/components/new-snippet/OutputPanel";
@@ -10,6 +11,7 @@ export default function NewSnippetPage() {
       <Header />
       <RunButton />
       <SaveButton />
+      <ModeToggle />
 
       <div className="grid grid-cols-2 gap-4">
         <EditorPanel />
