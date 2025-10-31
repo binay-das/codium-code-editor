@@ -44,6 +44,7 @@ model Snippet {
   comments SnippetComment[]
   stars    Star[]
 
+  @@unique([userId, title])
   @@index([userId])
 }
 
