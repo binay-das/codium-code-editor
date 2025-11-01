@@ -24,7 +24,7 @@ export default async function MySnippetsPage() {
   }
 
   const snippets = await prisma.snippet.findMany({
-    where: { userId: user.userId },
+    where: { userId: user.userId }
   });
 
   return (
@@ -61,10 +61,12 @@ export default async function MySnippetsPage() {
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {snippets.map((snippet) => (
             <SnippetCard
+              id={snippet.id}
               key={snippet.id}
               title={snippet.title}
               language={snippet.language}
               code={snippet.code}
+              isStarred={snippet.isStarred ?? false}
               createdAt={
                 (snippet as any).createdAt
                   ? (snippet as any).createdAt.toISOString()
