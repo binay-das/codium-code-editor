@@ -16,7 +16,6 @@ model User {
   codeExecutions CodeExecution[]
   snippets       Snippet[]
   snippetComments SnippetComment[]
-  stars          Star[]
 }
 
 model CodeExecution {
@@ -39,10 +38,10 @@ model Snippet {
   language  String
   code      String
   userName  String
+  isStarred Boolean  @default(false) 
 
   user     User             @relation(fields: [userId], references: [userId], onDelete: Cascade)
   comments SnippetComment[]
-  stars    Star[]
 
   @@unique([userId, title])
   @@index([userId])
@@ -61,15 +60,3 @@ model SnippetComment {
   @@index([snippetId])
 }
 
-model Star {
-  id        String   @id @default(cuid())
-  userId    String
-  snippetId String
-
-  user    User    @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  snippet Snippet @relation(fields: [snippetId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, snippetId])
-  @@index([userId])
-  @@index([snippetId])
-}
