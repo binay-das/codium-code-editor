@@ -1,14 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Copy, Check, Code2 } from "lucide-react";
+import { Copy, Check, Code2, MoreVertical } from "lucide-react";
 import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-  CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,27 +16,47 @@ import {
   TooltipContent,
   TooltipProvider,
 } from "@/components/ui/tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import { StarButton } from "./StarButton";
+import { DeleteButton } from "./DeleteButton";
 
 interface SnippetCardProps {
+  id: string;
   title: string;
   language: string;
   code: string;
   createdAt?: string;
+  isStarred: boolean;
 }
 
 export default function SnippetCard({
+  id,
   title,
   language,
   code,
   createdAt,
+  isStarred,
 }: SnippetCardProps) {
   const [copied, setCopied] = useState(false);
+  const [starred, setStarred] = useState(isStarred);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      toast.success("Code copied to clipboard!");
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      toast.error("Failed to copy code.");
+    }
   };
 
   return (
@@ -47,6 +66,7 @@ export default function SnippetCard({
       )}
     >
       <CardHeader className="pb-3 flex flex-row items-center justify-between">
+        {/* Left side — title */}
         <div className="space-y-1">
           <CardTitle className="text-lg font-semibold tracking-tight flex items-center gap-2">
             <Code2 className="w-4 h-4 text-primary" />
@@ -58,27 +78,62 @@ export default function SnippetCard({
           </CardDescription>
         </div>
 
-        <TooltipProvider delayDuration={200}>
-          <Tooltip>
-            <TooltipTrigger asChild>
+        {/* Right side — buttons */}
+        <div className="flex items-center gap-1">
+          {/* Copy button */}
+          <TooltipProvider delayDuration={200}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  onClick={handleCopy}
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full hover:bg-primary/10 text-muted-foreground"
+                >
+                  {copied ? (
+                    <Check className="w-4 h-4 text-green-500" />
+                  ) : (
+                    <Copy className="w-4 h-4" />
+                  )}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="left">
+                <p>{copied ? "Copied!" : "Copy code"}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          {/* 3-dot dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
               <Button
-                onClick={handleCopy}
                 variant="ghost"
                 size="icon"
                 className="rounded-full hover:bg-primary/10 text-muted-foreground"
               >
-                {copied ? (
-                  <Check className="w-4 h-4 text-green-500" />
-                ) : (
-                  <Copy className="w-4 h-4" />
-                )}
+                <MoreVertical className="w-4 h-4" />
               </Button>
-            </TooltipTrigger>
-            <TooltipContent side="left">
-              <p>{copied ? "Copied!" : "Copy code"}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent
+              align="end"
+              className="flex items-center justify-center gap-2 px-2 py-1"
+            >
+              <StarButton
+                snippetId={id}
+                initialStarred={starred}
+                onToggle={(newState: boolean) => setStarred(newState)}
+              />
+
+              <Separator
+                orientation="vertical"
+                className="h-5 bg-border/60 w-px"
+              />
+
+              <DeleteButton snippetId={id} />
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </CardHeader>
 
       <CardContent>
@@ -86,14 +141,6 @@ export default function SnippetCard({
           <code>{code.length > 300 ? `${code.slice(0, 300)}...` : code}</code>
         </pre>
       </CardContent>
-
-      {/* <CardFooter className="text-xs text-muted-foreground">
-        {createdAt ? (
-          <span>Created on {new Date(createdAt).toLocaleDateString()}</span>
-        ) : (
-          <span>Untitled snippet</span>
-        )}
-      </CardFooter> */}
     </Card>
   );
 }
