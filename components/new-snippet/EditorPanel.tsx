@@ -6,7 +6,7 @@ import { Editor } from "@monaco-editor/react";
 import { useEffect } from "react";
 
 export default function EditorPanel() {
-  const { language, editor, setEditor } = useCodeEditorStore();
+  const { language, editor, setEditor, theme, fontSize } = useCodeEditorStore();
 
   useEffect(() => {
     const newCode =
@@ -46,7 +46,7 @@ export default function EditorPanel() {
           language={LANGUAGE_CONFIG[language].monacoLanguage}
           onChange={handleEditorChange}
           onMount={(editor) => setEditor(editor)}
-          theme="vs-dark"
+          theme={theme}
           options={{
             automaticLayout: true,
             scrollBeyondLastLine: false,
@@ -66,6 +66,7 @@ export default function EditorPanel() {
               verticalScrollbarSize: 8,
               horizontalScrollbarSize: 8,
             },
+            fontSize: fontSize || 16
           }}
         />
       </div>
