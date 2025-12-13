@@ -6,8 +6,14 @@ import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { ModeToggle } from "@/components/ModeToggle";
 import RunButton from "@/components/new-snippet/RunButton";
 import SaveButton from "@/components/new-snippet/SaveButton";
+import EditorThemeSelector from "./EditorThemeSelector";
+import { FontSizeSelector } from "./FontSizeSelector";
+import { LanguageSelector } from "./LanguageSelector";
+import { useState } from "react";
 
 export default function Header() {
+  const [language, setLanguage] = useState("javascript");
+
   return (
     <header className="sticky top-0 z-50 bg-white/80 dark:bg-[#0b0b0f]/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 shadow-sm transition-colors">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-2">
@@ -24,6 +30,7 @@ export default function Header() {
             </p>
           </div>
         </Link>
+        <LanguageSelector selectedLanguage={language} onChange={setLanguage} />
 
         <nav className="hidden sm:flex items-center justify-center absolute left-1/2 -translate-x-1/2">
           <Link
@@ -37,6 +44,8 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-1.5">
+          <EditorThemeSelector />
+          <FontSizeSelector />
           <RunButton />
           <SaveButton />
           <ModeToggle />

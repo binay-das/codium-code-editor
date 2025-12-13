@@ -2,18 +2,29 @@
 
 import { LANGUAGE_CONFIG } from "@/constants";
 import { useCodeEditorStore } from "@/hooks/useCodeEditor";
-import { Editor } from "@monaco-editor/react";
-import { useEffect } from "react";
+import { Editor, Monaco } from "@monaco-editor/react";
+import { useEffect, useRef } from "react";
 
 export default function EditorPanel() {
   const { language, editor, setEditor, theme, fontSize } = useCodeEditorStore();
+  const monacoRef = useRef<Monaco | null>(null);
+
 
   useEffect(() => {
+    if (!editor || !monacoRef.current) return;
+
     const newCode =
       localStorage.getItem(`editor-code-${language}`) ||
       LANGUAGE_CONFIG[language].defaultCode;
 
-    if (editor) {
+    // if (editor) {
+    //   editor.setValue(newCode);
+    // }
+
+    const model = editor.getModel();
+
+    if (model) {
+      monacoRef.current.editor.setModelLanguage(model, LANGUAGE_CONFIG[language].monacoLanguage);
       editor.setValue(newCode);
     }
   }, [language, editor]);
@@ -45,7 +56,11 @@ export default function EditorPanel() {
           height="100%"
           language={LANGUAGE_CONFIG[language].monacoLanguage}
           onChange={handleEditorChange}
-          onMount={(editor) => setEditor(editor)}
+          // onMount={(editor) => setEditor(editor)}
+          onMount={(editor, monaco) => {
+            setEditor(editor);
+            monacoRef.current = monaco;
+          }}
           theme={theme}
           options={{
             automaticLayout: true,
