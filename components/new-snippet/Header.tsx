@@ -9,10 +9,10 @@ import SaveButton from "@/components/new-snippet/SaveButton";
 import EditorThemeSelector from "./EditorThemeSelector";
 import { FontSizeSelector } from "./FontSizeSelector";
 import { LanguageSelector } from "./LanguageSelector";
-import { useState } from "react";
+import { useCodeEditorStore } from "@/hooks/useCodeEditor";
 
 export default function Header() {
-  const [language, setLanguage] = useState("javascript");
+  const { language, setLanguage } = useCodeEditorStore();
 
   return (
     <header className="sticky top-0 z-50 bg-white/80 dark:bg-[#0b0b0f]/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 shadow-sm transition-colors">
