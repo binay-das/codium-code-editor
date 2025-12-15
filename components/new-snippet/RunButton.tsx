@@ -1,8 +1,6 @@
-"use client";
-
 import { Loader2, Play } from "lucide-react";
 import { useCodeEditorStore } from "@/hooks/useCodeEditor";
-import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
 
 export default function RunButton() {
   const { runCode, isRunning } = useCodeEditorStore();
@@ -12,29 +10,24 @@ export default function RunButton() {
   };
 
   return (
-    <motion.button
+    <Button
       onClick={handleRun}
       disabled={isRunning}
-      whileHover={{ scale: !isRunning ? 1.03 : 1 }}
-      whileTap={{ scale: 0.97 }}
-      className={`relative inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all
-        ${
-          isRunning
-            ? "bg-neutral-200 dark:bg-neutral-800 text-neutral-500 cursor-not-allowed"
-            : "bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white shadow-md hover:shadow-lg"
-        }`}
+      variant="secondary"
+      size="sm"
+      className="gap-2 text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
     >
       {isRunning ? (
         <>
-          <Loader2 className="w-4 h-4 animate-spin text-white/80" />
-          Running...
+          <Loader2 className="size-4 animate-spin" />
+          <span className="hidden sm:inline">Running...</span>
         </>
       ) : (
         <>
-          <Play className="w-4 h-4 text-white/90" />
-          Run Code
+          <Play className="size-4" />
+          <span className="hidden sm:inline">Run</span>
         </>
       )}
-    </motion.button>
+    </Button>
   );
 }
