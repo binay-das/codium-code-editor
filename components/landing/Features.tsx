@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { Code2, Share, Zap } from "lucide-react";
 
-// Filtered features based on user feedback (removed AI, Version History, Collab)
 const features = [
     {
         icon: <Code2 className="h-6 w-6 text-blue-400" />,
@@ -30,7 +29,6 @@ export default function Features() {
         <section className="py-32 relative overflow-hidden bg-zinc-950">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-indigo-500/10 rounded-full blur-[100px] -z-10" />
 
-            {/* Updated max-width to max-w-5xl to match hero section */}
             <div className="w-full max-w-5xl mx-auto px-6">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
