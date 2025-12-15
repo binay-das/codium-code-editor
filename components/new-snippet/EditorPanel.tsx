@@ -5,32 +5,48 @@ import { useCodeEditorStore } from "@/hooks/useCodeEditor";
 import { Editor, Monaco } from "@monaco-editor/react";
 import { useEffect, useRef } from "react";
 
-export default function EditorPanel() {
-  const { language, editor, setEditor, theme, fontSize } = useCodeEditorStore();
+interface EditorPanelProps {
+  initialCode?: string;
+  initialLanguage?: string;
+}
+
+export default function EditorPanel({ initialCode, initialLanguage }: EditorPanelProps) {
+  const { language, setLanguage, editor, setEditor, theme, fontSize } = useCodeEditorStore();
   const monacoRef = useRef<Monaco | null>(null);
 
+  useEffect(() => {
+    if (initialCode && editor) {
+      editor.setValue(initialCode);
+    }
+    if (initialLanguage) {
+      setLanguage(initialLanguage);
+    }
+  }, [initialCode, initialLanguage, editor, setLanguage]);
 
   useEffect(() => {
     if (!editor || !monacoRef.current) return;
 
-    const newCode =
-      localStorage.getItem(`editor-code-${language}`) ||
-      LANGUAGE_CONFIG[language].defaultCode;
+    if (!initialCode) {
+      const newCode =
+        localStorage.getItem(`editor-code-${language}`) ||
+        LANGUAGE_CONFIG[language].defaultCode;
 
-    // if (editor) {
-    //   editor.setValue(newCode);
-    // }
+      const model = editor.getModel();
 
-    const model = editor.getModel();
-
-    if (model) {
-      monacoRef.current.editor.setModelLanguage(model, LANGUAGE_CONFIG[language].monacoLanguage);
-      editor.setValue(newCode);
+      if (model) {
+        monacoRef.current.editor.setModelLanguage(model, LANGUAGE_CONFIG[language].monacoLanguage);
+        editor.setValue(newCode);
+      }
+    } else {
+      const model = editor.getModel();
+      if (model) {
+        monacoRef.current.editor.setModelLanguage(model, LANGUAGE_CONFIG[language].monacoLanguage);
+      }
     }
-  }, [language, editor]);
+  }, [language, editor, initialCode]);
 
   const handleEditorChange = (value: string | undefined) => {
-    if (value) {
+    if (value && !initialCode) {
       localStorage.setItem(`editor-code-${language}`, value);
     }
   };
@@ -43,7 +59,7 @@ export default function EditorPanel() {
             Code Editor
           </h2>
           <p className="text-[11px] text-gray-500 dark:text-gray-400">
-            Write and execute your code
+            {initialCode ? "View and run code" : "Write and execute your code"}
           </p>
         </div>
         <span className="text-[11px] font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
