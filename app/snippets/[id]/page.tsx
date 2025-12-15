@@ -31,14 +31,14 @@ export default async function SnippetDetailPage({
 
             <main className="max-w-7xl mx-auto px-4 py-6">
                 <div className="grid lg:grid-cols-2 gap-6">
-                    <div className="rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#111827] shadow-sm p-4 transition-colors">
+                    <div className="rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 dark:backdrop-blur-sm p-4 transition-colors">
                         <EditorPanel
                             initialCode={snippet.code}
                             initialLanguage={snippet.language}
                         />
                     </div>
 
-                    <div className="rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#111827] shadow-sm p-4 transition-colors">
+                    <div className="rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 dark:backdrop-blur-sm p-4 transition-colors">
                         <OutputPanel />
                     </div>
                 </div>
