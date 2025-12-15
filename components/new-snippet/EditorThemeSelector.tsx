@@ -23,7 +23,7 @@ const THEME_LABELS: Record<string, string> = {
   "vs-dark": "Dark",
   "vs-light": "Light",
   "github-dark": "GitHub",
-  monokai: "Monokai",
+  "monokai": "Monokai",
   "solarized-dark": "Solarized",
 };
 
@@ -37,21 +37,20 @@ export default function EditorThemeSelector() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="ghost"
+          variant="outline"
           size="sm"
-          className="inline-flex items-center gap-2 px-3 py-1 rounded-md"
+          className="w-full justify-between px-3 py-1.5 bg-gray-50 dark:bg-zinc-900 border-gray-200 dark:border-zinc-800 text-gray-700 dark:text-zinc-300 font-normal hover:bg-gray-100 dark:hover:bg-zinc-800"
           aria-label="Select editor theme"
         >
-          <span className="flex items-center">
-            {THEME_ICONS[theme] ?? <Moon className="w-4 h-4" />}
+          <span className="flex items-center gap-2">
+            {THEME_ICONS[theme] ?? <Moon className="size-3.5" />}
+            <span className="text-xs">{THEME_LABELS[theme] ?? theme}</span>
           </span>
-          <span className="text-sm font-medium">
-            {THEME_LABELS[theme] ?? theme}
-          </span>
+          <div className="opacity-50 text-[10px]">▼</div>
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end" className="w-44 p-1">
+      <DropdownMenuContent align="end" className="w-48 p-1 bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800">
         {themes.map((t) => (
           <DropdownMenuItem
             key={t}
