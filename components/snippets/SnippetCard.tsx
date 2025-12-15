@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Copy, Check, Code2, MoreVertical } from "lucide-react";
 import {
   Card,
@@ -48,7 +49,9 @@ export default function SnippetCard({
   const [copied, setCopied] = useState(false);
   const [starred, setStarred] = useState(isStarred);
 
-  const handleCopy = async () => {
+  const handleCopy = async (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent navigation
+    e.stopPropagation();
     try {
       await navigator.clipboard.writeText(code);
       setCopied(true);
@@ -60,87 +63,85 @@ export default function SnippetCard({
   };
 
   return (
-    <Card
-      className={cn(
-        "group relative border border-border/50 bg-muted/40 hover:bg-muted/60 transition-all rounded-2xl overflow-hidden"
-      )}
-    >
-      <CardHeader className="pb-3 flex flex-row items-center justify-between">
-        {/* Left side — title */}
-        <div className="space-y-1">
-          <CardTitle className="text-lg font-semibold tracking-tight flex items-center gap-2">
-            <Code2 className="w-4 h-4 text-primary" />
-            {title}
-          </CardTitle>
-          <CardDescription className="text-xs text-muted-foreground">
-            {language.toUpperCase()}{" "}
-            {createdAt && `• ${new Date(createdAt).toLocaleDateString()}`}
-          </CardDescription>
-        </div>
+    <Card className="group relative border border-zinc-800 bg-zinc-900/30 hover:bg-zinc-900/50 hover:border-zinc-700 transition-all rounded-xl overflow-hidden">
+      <Link href={`/snippets/${id}`} className="block h-full w-full">
+        <CardHeader className="pb-3 flex flex-row items-center justify-between">
+          <div className="space-y-1">
+            <CardTitle className="text-lg font-semibold tracking-tight text-white flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10">
+                <Code2 className="w-4 h-4 text-white" />
+              </div>
+              {title}
+            </CardTitle>
+            <CardDescription className="text-xs text-zinc-400">
+              {language.toUpperCase()}{" "}
+              {createdAt && `• ${new Date(createdAt).toLocaleDateString()}`}
+            </CardDescription>
+          </div>
 
-        {/* Right side — buttons */}
-        <div className="flex items-center gap-1">
-          {/* Copy button */}
-          <TooltipProvider delayDuration={200}>
-            <Tooltip>
-              <TooltipTrigger asChild>
+          <div className="flex items-center gap-1" onClick={(e) => e.preventDefault()}>
+            <TooltipProvider delayDuration={200}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={handleCopy}
+                    variant="ghost"
+                    size="icon"
+                    className="rounded-lg h-8 w-8 hover:bg-zinc-800 text-zinc-400 hover:text-white"
+                  >
+                    {copied ? (
+                      <Check className="w-4 h-4 text-green-500" />
+                    ) : (
+                      <Copy className="w-4 h-4" />
+                    )}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="left" className="bg-zinc-900 text-zinc-300 border-zinc-800">
+                  <p>{copied ? "Copied!" : "Copy code"}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
                 <Button
-                  onClick={handleCopy}
                   variant="ghost"
                   size="icon"
-                  className="rounded-full hover:bg-primary/10 text-muted-foreground"
+                  className="rounded-lg h-8 w-8 hover:bg-zinc-800 text-zinc-400 hover:text-white"
                 >
-                  {copied ? (
-                    <Check className="w-4 h-4 text-green-500" />
-                  ) : (
-                    <Copy className="w-4 h-4" />
-                  )}
+                  <MoreVertical className="w-4 h-4" />
                 </Button>
-              </TooltipTrigger>
-              <TooltipContent side="left">
-                <p>{copied ? "Copied!" : "Copy code"}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+              </DropdownMenuTrigger>
 
-          {/* 3-dot dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-full hover:bg-primary/10 text-muted-foreground"
+              <DropdownMenuContent
+                align="end"
+                className="bg-zinc-900 border-zinc-800 text-zinc-300"
               >
-                <MoreVertical className="w-4 h-4" />
-              </Button>
-            </DropdownMenuTrigger>
+                <div className="flex items-center justify-center gap-2 px-2 py-1">
+                  <StarButton
+                    snippetId={id}
+                    initialStarred={starred}
+                    onToggle={(newState: boolean) => setStarred(newState)}
+                  />
 
-            <DropdownMenuContent
-              align="end"
-              className="flex items-center justify-center gap-2 px-2 py-1"
-            >
-              <StarButton
-                snippetId={id}
-                initialStarred={starred}
-                onToggle={(newState: boolean) => setStarred(newState)}
-              />
+                  <Separator
+                    orientation="vertical"
+                    className="h-5 bg-zinc-800 w-px"
+                  />
 
-              <Separator
-                orientation="vertical"
-                className="h-5 bg-border/60 w-px"
-              />
+                  <DeleteButton snippetId={id} />
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </CardHeader>
 
-              <DeleteButton snippetId={id} />
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </CardHeader>
-
-      <CardContent>
-        <pre className="bg-background/60 text-sm rounded-lg p-3 text-muted-foreground max-h-48 overflow-hidden whitespace-pre-wrap relative">
-          <code>{code.length > 300 ? `${code.slice(0, 300)}...` : code}</code>
-        </pre>
-      </CardContent>
+        <CardContent>
+          <pre className="bg-black/30 border border-zinc-800 text-sm rounded-lg p-3 text-zinc-300 font-mono max-h-48 overflow-hidden whitespace-pre-wrap relative">
+            <code>{code.length > 300 ? `${code.slice(0, 300)}...` : code}</code>
+          </pre>
+        </CardContent>
+      </Link>
     </Card>
   );
 }
