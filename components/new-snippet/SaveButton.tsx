@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
 import { toast } from "sonner";
 
 export default function SaveButton() {
@@ -61,20 +60,15 @@ export default function SaveButton() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <motion.button
-          whileHover={{ scale: !isRunning ? 1.03 : 1 }}
-          whileTap={{ scale: 0.97 }}
+        <Button
           disabled={isRunning}
-          className={`inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all
-            ${
-              isRunning
-                ? "bg-neutral-200 dark:bg-neutral-800 text-neutral-500 cursor-not-allowed"
-                : "bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 text-white shadow-md hover:shadow-lg"
-            }`}
+          variant="secondary"
+          size="sm"
+          className="gap-2 text-white bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-600 dark:hover:bg-emerald-700"
         >
-          <Save className="w-4 h-4" />
-          Save Code
-        </motion.button>
+          <Save className="size-4" />
+          <span className="hidden sm:inline">Save</span>
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-md">
