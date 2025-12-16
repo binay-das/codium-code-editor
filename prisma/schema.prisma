@@ -39,6 +39,7 @@ model Snippet {
   code      String
   userName  String
   isStarred Boolean  @default(false) 
+  isShareable Boolean @default(false) 
 
   user     User             @relation(fields: [userId], references: [userId], onDelete: Cascade)
   comments SnippetComment[]
