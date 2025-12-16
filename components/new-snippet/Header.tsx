@@ -16,9 +16,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import ShareSnippetDialog from "./ShareSnippetDialog";
 
-export default function Header() {
-  const { language, setLanguage, theme, setTheme, fontSize, setFontSize } = useCodeEditorStore();
+interface HeaderProps {
+  snippetId?: string;
+  isShareable?: boolean;
+  canShare?: boolean;
+}
+
+export default function Header({ snippetId, isShareable, canShare = true }: HeaderProps) {
+  const { language, setLanguage } = useCodeEditorStore();
 
   return (
     <header className="sticky top-0 z-50 p-0 border-b border-gray-200 dark:border-zinc-800 bg-white/80 dark:bg-[#0a0a0f]/80 backdrop-blur-md transition-all">
@@ -55,7 +62,8 @@ export default function Header() {
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
             <RunButton />
-            <SaveButton />
+            {snippetId && canShare && <ShareSnippetDialog snippetId={snippetId} initialIsShareable={!!isShareable} />}
+            {canShare && <SaveButton />}
           </div>
 
           <div className="h-6 w-px bg-gray-200 dark:bg-zinc-800 mx-1" />
@@ -118,4 +126,3 @@ export default function Header() {
     </header>
   );
 }
-
