@@ -8,9 +8,11 @@ import { useEffect, useRef } from "react";
 interface EditorPanelProps {
   initialCode?: string;
   initialLanguage?: string;
+  readOnly?: boolean;
 }
 
-export default function EditorPanel({ initialCode, initialLanguage }: EditorPanelProps) {
+
+export default function EditorPanel({ initialCode, initialLanguage, readOnly = false }: EditorPanelProps) {
   const { language, setLanguage, editor, setEditor, theme, fontSize } = useCodeEditorStore();
   const monacoRef = useRef<Monaco | null>(null);
 
@@ -97,7 +99,9 @@ export default function EditorPanel({ initialCode, initialLanguage }: EditorPane
               verticalScrollbarSize: 8,
               horizontalScrollbarSize: 8,
             },
-            fontSize: fontSize || 16
+            fontSize: fontSize || 16,
+            readOnly,
+            domReadOnly: readOnly,
           }}
         />
       </div>
