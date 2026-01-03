@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
+import { Github } from "lucide-react";
 import TrustedBy from "@/components/landing/TrustedBy";
 import Features from "@/components/landing/Features";
 import Testimonials from "@/components/landing/Testimonials";
@@ -234,12 +235,52 @@ export default function Home() {
         <CallToAction />
 
         <footer className="w-full border-t border-zinc-900 bg-zinc-950 py-12 text-center">
-          <div className="flex flex-col items-center justify-center gap-4">
-            <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-zinc-200 to-zinc-500">Codium</h2>
-            <div className="flex gap-4">
-              <Link href="/snippets" className="text-sm text-zinc-400 hover:text-white">Snippets</Link>
+          <div className="flex flex-col items-center justify-center gap-6">
+            <h2 className="bg-gradient-to-r from-zinc-200 to-zinc-500 bg-clip-text text-2xl font-bold text-transparent">
+              Codium
+            </h2>
+
+            {/* Prominent link to GitHub profile */}
+            <Link
+              href="https://github.com/binay-das"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-zinc-900 border border-zinc-800 px-6 py-2.5 text-zinc-300 transition-all hover:bg-zinc-800 hover:text-white hover:border-zinc-700 hover:scale-105"
+            >
+              <Github className="h-5 w-5" />
+              <span className="font-medium">My GitHub</span>
+            </Link>
+
+            <div className="flex gap-6 items-center">
+              <Link href="/snippets" className="text-sm text-zinc-400 hover:text-white transition-colors">
+                Snippets
+              </Link>
+              <Link
+                href="https://github.com/binay-das/codium-code-editor"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-zinc-400 hover:text-white transition-colors"
+              >
+                Give the repository a star
+              </Link>
             </div>
-            <p className="mt-8 text-xs text-zinc-600">&copy; {new Date().getFullYear()} Codium. Crafted for builders.</p>
+
+            <div className="mt-4 flex flex-col items-center gap-2">
+              <p className="text-xs text-zinc-600">
+                Built with love by{" "}
+                <Link
+                  href="https://github.com/binay-das"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium underline underline-offset-2 hover:text-zinc-400 transition-colors"
+                >
+                  binay-das
+                </Link>
+              </p>
+              <p className="text-xs text-zinc-600">
+                &copy; {new Date().getFullYear()} Codium. Crafted for builders.
+              </p>
+            </div>
           </div>
         </footer>
       </main>
