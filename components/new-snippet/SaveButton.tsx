@@ -42,7 +42,9 @@ export default function SaveButton() {
       toast.success("Snippet saved successfully!");
       setOpen(false);
       setTitle("");
-    } catch (err: any) {
+    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const err = error as any;
       console.error(err);
       const message =
         err?.response?.data?.error ||

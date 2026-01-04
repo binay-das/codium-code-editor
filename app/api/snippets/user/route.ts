@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { syncClerkUser } from "@/lib/auth";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const user = await syncClerkUser();
     if (!user) {
@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
 
     const snippets = await prisma.snippet.findMany({
       where: { userId: user.userId },
-    //   orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: "desc" }
     });
 
     return NextResponse.json(snippets, { status: 200 });

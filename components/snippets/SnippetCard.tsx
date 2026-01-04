@@ -21,10 +21,8 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { StarButton } from "./StarButton";
 import { DeleteButton } from "./DeleteButton";

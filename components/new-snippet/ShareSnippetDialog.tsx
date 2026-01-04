@@ -1,6 +1,6 @@
 "use client";
 
-import { Copy, Globe, Lock, Share2, X } from "lucide-react";
+import { Copy, Globe, Lock, Share2 } from "lucide-react";
 import { useState } from "react";
 import {
     Dialog,
