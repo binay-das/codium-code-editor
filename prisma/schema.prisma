@@ -40,6 +40,8 @@ model Snippet {
   userName  String
   isStarred Boolean  @default(false) 
   isShareable Boolean @default(false) 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now()) 
 
   user     User             @relation(fields: [userId], references: [userId], onDelete: Cascade)
   comments SnippetComment[]

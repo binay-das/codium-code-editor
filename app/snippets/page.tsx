@@ -30,8 +30,8 @@ export default async function MySnippetsPage() {
   }
 
   const snippets = await prisma.snippet.findMany({
-    where: { 
-      userId: user.userId 
+    where: {
+      userId: user.userId
     }
   });
 
@@ -79,11 +79,7 @@ export default async function MySnippetsPage() {
                 language={snippet.language}
                 code={snippet.code}
                 isStarred={snippet.isStarred ?? false}
-                createdAt={
-                  (snippet as any).createdAt
-                    ? (snippet as any).createdAt.toISOString()
-                    : undefined
-                }
+                createdAt={snippet.createdAt?.toISOString()}
               />
             ))}
           </div>
