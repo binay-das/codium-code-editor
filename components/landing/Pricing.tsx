@@ -57,7 +57,7 @@ export default function Pricing() {
             <div className="w-full max-w-5xl mx-auto px-6 relative z-10">
                 <div className="text-center mb-20">
                     <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">Simple, transparent pricing</h2>
-                    <p className="text-lg text-zinc-400">Choose the plan that's right for you</p>
+                    <p className="text-lg text-zinc-400">Choose the plan that&apos;s right for you</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mx-auto">
@@ -69,8 +69,8 @@ export default function Pricing() {
                             transition={{ delay: index * 0.1, duration: 0.5 }}
                             viewport={{ once: true }}
                             className={`relative rounded-2xl border p-8 flex flex-col ${plan.popular
-                                    ? "border-blue-500/50 bg-zinc-900/80 shadow-2xl shadow-blue-500/10"
-                                    : "border-zinc-800 bg-zinc-900/30"
+                                ? "border-blue-500/50 bg-zinc-900/80 shadow-2xl shadow-blue-500/10"
+                                : "border-zinc-800 bg-zinc-900/30"
                                 }`}
                         >
                             {plan.popular && (
@@ -100,8 +100,8 @@ export default function Pricing() {
                             <Link
                                 href="/snippets/new"
                                 className={`w-full py-3 rounded-lg text-sm font-medium transition-colors text-center ${plan.popular
-                                        ? "bg-blue-600 hover:bg-blue-700 text-white"
-                                        : "bg-zinc-800 hover:bg-zinc-700 text-white"
+                                    ? "bg-blue-600 hover:bg-blue-700 text-white"
+                                    : "bg-zinc-800 hover:bg-zinc-700 text-white"
                                     }`}
                             >
                                 {plan.cta}

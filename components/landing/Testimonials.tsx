@@ -39,7 +39,7 @@ export default function Testimonials() {
                 >
                     <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">Loved by developers worldwide</h2>
                     <p className="text-lg text-zinc-400 max-w-2xl mx-auto">
-                        Don't just take our word for it. Here's what the community has to say about Codium.
+                        Don&apos;t just take our word for it. Here&apos;s what the community has to say about Codium.
                     </p>
                 </motion.div>
 
@@ -60,7 +60,7 @@ export default function Testimonials() {
                             </div>
 
                             <blockquote className="flex-1 text-zinc-300 text-lg leading-relaxed mb-8">
-                                "{testimonial.content}"
+                                &quot;{testimonial.content}&quot;
                             </blockquote>
 
                             <div className="flex items-center gap-4 mt-auto">
