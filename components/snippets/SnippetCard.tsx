@@ -61,17 +61,17 @@ export default function SnippetCard({
   };
 
   return (
-    <Card className="group relative border border-zinc-800 bg-zinc-900/30 hover:bg-zinc-900/50 hover:border-zinc-700 transition-all rounded-xl overflow-hidden">
+    <Card className="group relative border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/30 hover:bg-gray-50 dark:hover:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-all rounded-xl overflow-hidden">
       <Link href={`/snippets/${id}`} className="block h-full w-full">
         <CardHeader className="pb-3 flex flex-row items-center justify-between">
           <div className="space-y-1">
-            <CardTitle className="text-lg font-semibold tracking-tight text-white flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10">
-                <Code2 className="w-4 h-4 text-white" />
+            <CardTitle className="text-lg font-semibold tracking-tight text-gray-900 dark:text-white flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 dark:bg-white/10">
+                <Code2 className="w-4 h-4 text-gray-700 dark:text-white" />
               </div>
               {title}
             </CardTitle>
-            <CardDescription className="text-xs text-zinc-400">
+            <CardDescription className="text-xs text-gray-500 dark:text-zinc-400">
               {language.toUpperCase()}{" "}
               {createdAt && `• ${new Date(createdAt).toLocaleDateString()}`}
             </CardDescription>
@@ -85,16 +85,16 @@ export default function SnippetCard({
                     onClick={handleCopy}
                     variant="ghost"
                     size="icon"
-                    className="rounded-lg h-8 w-8 hover:bg-zinc-800 text-zinc-400 hover:text-white"
+                    className="rounded-lg h-8 w-8 hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white"
                   >
                     {copied ? (
-                      <Check className="w-4 h-4 text-green-500" />
+                      <Check className="w-4 h-4 text-green-600 dark:text-green-500" />
                     ) : (
                       <Copy className="w-4 h-4" />
                     )}
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent side="left" className="bg-zinc-900 text-zinc-300 border-zinc-800">
+                <TooltipContent side="left" className="bg-gray-800 dark:bg-zinc-900 text-gray-100 dark:text-zinc-300 border-gray-700 dark:border-zinc-800">
                   <p>{copied ? "Copied!" : "Copy code"}</p>
                 </TooltipContent>
               </Tooltip>
@@ -105,7 +105,7 @@ export default function SnippetCard({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="rounded-lg h-8 w-8 hover:bg-zinc-800 text-zinc-400 hover:text-white"
+                  className="rounded-lg h-8 w-8 hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white"
                 >
                   <MoreVertical className="w-4 h-4" />
                 </Button>
@@ -113,7 +113,7 @@ export default function SnippetCard({
 
               <DropdownMenuContent
                 align="end"
-                className="bg-zinc-900 border-zinc-800 text-zinc-300"
+                className="bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-zinc-300"
               >
                 <div className="flex items-center justify-center gap-2 px-2 py-1">
                   <StarButton
@@ -124,7 +124,7 @@ export default function SnippetCard({
 
                   <Separator
                     orientation="vertical"
-                    className="h-5 bg-zinc-800 w-px"
+                    className="h-5 bg-gray-200 dark:bg-zinc-800 w-px"
                   />
 
                   <DeleteButton snippetId={id} />
@@ -135,7 +135,7 @@ export default function SnippetCard({
         </CardHeader>
 
         <CardContent>
-          <pre className="bg-black/30 border border-zinc-800 text-sm rounded-lg p-3 text-zinc-300 font-mono max-h-48 overflow-hidden whitespace-pre-wrap relative">
+          <pre className="bg-gray-100 dark:bg-black/30 border border-gray-200 dark:border-zinc-800 text-sm rounded-lg p-3 text-gray-800 dark:text-zinc-300 font-mono max-h-48 overflow-hidden whitespace-pre-wrap relative">
             <code>{code.length > 300 ? `${code.slice(0, 300)}...` : code}</code>
           </pre>
         </CardContent>

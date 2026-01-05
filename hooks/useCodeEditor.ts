@@ -40,12 +40,6 @@ const getInitialState = (): Pick<
 };
 
 export const useCodeEditorStore = create<CodeEditorState>((set, get) => ({
-  // // language: typeof window !== "undefined" ? localStorage.getItem("editor-language") || "javascript" : "javascript",
-  // editor: null,
-  // output: "",
-  // error: null,
-  // isRunning: false,
-
   ...getInitialState(),
   editor: null,
   output: "",
