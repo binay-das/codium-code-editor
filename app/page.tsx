@@ -9,10 +9,18 @@ import Testimonials from "@/components/landing/Testimonials";
 import Pricing from "@/components/landing/Pricing";
 import FAQ from "@/components/landing/FAQ";
 import CallToAction from "@/components/landing/CallToAction";
+import Header from "@/components/new-snippet/Header";
+
 
 export default function Home() {
   return (
     <div className="relative flex min-h-screen flex-col overflow-hidden bg-black font-sans text-white">
+      <Header
+        showLanguageSelector={false}
+        showSnippetsLink={false}
+        showEditorControls={false}
+      />
+
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-zinc-900/50 via-black to-black opacity-40 pointer-events-none fixed" />
 
       <div className="absolute inset-x-0 top-0 h-[500px] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />

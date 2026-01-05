@@ -22,9 +22,23 @@ interface HeaderProps {
   snippetId?: string;
   isShareable?: boolean;
   canShare?: boolean;
+  showLanguageSelector?: boolean;
+  showSnippetsLink?: boolean;
+  showEditorControls?: boolean;
+  showSettings?: boolean;
+  showAuth?: boolean;
 }
 
-export default function Header({ snippetId, isShareable, canShare = true }: HeaderProps) {
+export default function Header({
+  snippetId,
+  isShareable,
+  canShare = true,
+  showLanguageSelector = true,
+  showSnippetsLink = true,
+  showEditorControls = true,
+  showSettings = true,
+  showAuth = true
+}: HeaderProps) {
   const { language, setLanguage } = useCodeEditorStore();
 
   return (
@@ -45,82 +59,100 @@ export default function Header({ snippetId, isShareable, canShare = true }: Head
             </div>
           </Link>
 
-          <div className="h-6 w-px bg-gray-200 dark:bg-zinc-800" />
-
-          <div className="flex-1 max-w-xs flex justify-center">
-            <LanguageSelector selectedLanguage={language} onChange={setLanguage} />
-          </div>
+          {showLanguageSelector && (
+            <>
+              <div className="h-6 w-px bg-gray-200 dark:bg-zinc-800" />
+              <div className="flex-1 max-w-xs flex justify-center">
+                <LanguageSelector selectedLanguage={language} onChange={setLanguage} />
+              </div>
+            </>
+          )}
         </div>
-        <Link
-          href="/snippets"
-          className="flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-        >
-          <Code2 className="size-4" />
-          <span className="hidden sm:inline">Snippets</span>
-        </Link>
 
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <RunButton />
-            {snippetId && canShare && <ShareSnippetDialog snippetId={snippetId} initialIsShareable={!!isShareable} />}
-            {canShare && <SaveButton />}
-          </div>
-
-          <div className="h-6 w-px bg-gray-200 dark:bg-zinc-800 mx-1" />
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white"
-              >
-                <Settings2 className="size-4" />
-              </Button>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent
-              align="end"
-              sideOffset={8}
-              className="w-64 rounded-lg p-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 shadow-lg"
+          {showSnippetsLink && (
+            <Link
+              href="/snippets"
+              className="flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition-colors"
             >
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-500">
-                    Appearance
-                  </p>
-                  <ModeToggle />
-                </div>
+              <Code2 className="size-4" />
+              <span className="hidden sm:inline">Snippets</span>
+            </Link>
+          )}
 
-                <div className="h-px bg-gray-100 dark:bg-zinc-800" />
-
-                <div className="space-y-2">
-                  <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-500">
-                    Editor
-                  </p>
-                  <EditorThemeSelector />
-                  <FontSizeSelector />
-                </div>
+          {showEditorControls && (
+            <>
+              <div className="flex items-center gap-2">
+                <RunButton />
+                {snippetId && canShare && <ShareSnippetDialog snippetId={snippetId} initialIsShareable={!!isShareable} />}
+                {canShare && <SaveButton />}
               </div>
-            </DropdownMenuContent>
-          </DropdownMenu>
 
+              <div className="h-6 w-px bg-gray-200 dark:bg-zinc-800 mx-1" />
+            </>
+          )}
 
-          <div className="h-6 w-px bg-gray-200 dark:bg-zinc-800 mx-1" />
+          {showSettings && (
+            <>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white"
+                  >
+                    <Settings2 className="size-4" />
+                  </Button>
+                </DropdownMenuTrigger>
 
-          <div className="flex items-center gap-2">
+                <DropdownMenuContent
+                  align="end"
+                  sideOffset={8}
+                  className="w-64 rounded-lg p-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 shadow-lg"
+                >
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-500">
+                        Appearance
+                      </p>
+                      <ModeToggle />
+                    </div>
 
-            <SignedIn>
-              <UserButton afterSignOutUrl="/" />
-            </SignedIn>
-            <SignedOut>
-              <SignInButton mode="modal">
-                <button className="text-sm font-medium px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white transition-colors shadow-sm">
-                  Sign in
-                </button>
-              </SignInButton>
-            </SignedOut>
-          </div>
+                    {showEditorControls && (
+                      <>
+                        <div className="h-px bg-gray-100 dark:bg-zinc-800" />
+
+                        <div className="space-y-2">
+                          <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-500">
+                            Editor
+                          </p>
+                          <EditorThemeSelector />
+                          <FontSizeSelector />
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {showAuth && <div className="h-6 w-px bg-gray-200 dark:bg-zinc-800 mx-1" />}
+            </>
+          )}
+
+          {showAuth && (
+            <div className="flex items-center gap-2">
+              <SignedIn>
+                <UserButton afterSignOutUrl="/" />
+              </SignedIn>
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <button className="text-sm font-medium px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white transition-colors shadow-sm">
+                    Sign in
+                  </button>
+                </SignInButton>
+              </SignedOut>
+            </div>
+          )}
         </div>
       </div>
     </header>

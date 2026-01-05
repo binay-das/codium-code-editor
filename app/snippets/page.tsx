@@ -4,6 +4,7 @@ import { syncClerkUser } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusCircle } from "lucide-react";
+import Header from "@/components/new-snippet/Header";
 
 export default async function MySnippetsPage() {
   const user = await syncClerkUser();
@@ -37,6 +38,12 @@ export default async function MySnippetsPage() {
 
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
+      <Header
+        showLanguageSelector={false}
+        showSnippetsLink={false}
+        showEditorControls={false}
+      />
+
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-zinc-900/50 via-black to-black opacity-40 pointer-events-none" />
       <div className="fixed inset-x-0 top-0 h-[500px] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
 
