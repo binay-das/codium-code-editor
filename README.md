@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Codium
 
-## Getting Started
+A modern, feature-rich web-based code editor for managing and sharing code snippets. Built with Next.js 16, TypeScript, and Monaco Editor.
 
-First, run the development server:
+## Features
+
+- **Monaco Editor Integration** - Full-featured code editing with syntax highlighting for 100+ languages
+- **Snippet Management** - Create, save, and organize code snippets with ease
+- **Instant Sharing** - Generate unique shareable links for your snippets
+- **Authentication** - Secure user authentication powered by Clerk
+- **Theme Support** - Beautiful light and dark themes with smooth transitions
+- **Responsive Design** - Works seamlessly across all devices
+- **Real-time Execution** - Run code directly in the browser
+- **Cloud Storage** - Snippets securely stored with Prisma and PostgreSQL
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Language:** TypeScript
+- **Editor:** Monaco Editor
+- **Styling:** Tailwind CSS 4
+- **UI Components:** Radix UI + shadcn/ui
+- **Authentication:** Clerk
+- **Database:** Prisma + PostgreSQL
+- **Animations:** Framer Motion
+- **State Management:** Zustand
+
+## Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/binay-das/codium-code-editor.git
+   cd codium-code-editor
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables**
+   
+   Create a `.env` file in the root directory:
+   ```env
+   
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+
+   CLERK_SECRET_KEY=
+   
+   DATABASE_URL=
+   ```
+
+4. **Set up the database**
+   ```bash
+   npx prisma generate
+   npx prisma db push
+   ```
+
+5. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+   Open [http://localhost:3000](http://localhost:3000) to view the application.
+
+## Build for Production
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `npm run dev` - Start development server with Turbopack
+- `npm run build` - Build for production
+- `npm start` - Start production server
+- `npm run lint` - Run ESLint
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Contributing
 
-## Learn More
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Author
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Binay Das**
+- GitHub: [@binay-das](https://github.com/binay-das)
 
-## Deploy on Vercel
+## Show Your Support
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Give a star if this project helped you!
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
