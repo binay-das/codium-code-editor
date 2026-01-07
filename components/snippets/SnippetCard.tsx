@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Copy, Check, Code2, MoreVertical } from "lucide-react";
+import { Copy, Check, Code2, MoreVertical, Tag as TagIcon } from "lucide-react";
 import {
   Card,
   CardHeader,
@@ -26,6 +26,14 @@ import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { StarButton } from "./StarButton";
 import { DeleteButton } from "./DeleteButton";
+import TagBadge from "./TagBadge";
+import TagManager from "./TagManager";
+
+interface Tag {
+  id: string;
+  name: string;
+  color: string;
+}
 
 interface SnippetCardProps {
   id: string;
@@ -34,6 +42,8 @@ interface SnippetCardProps {
   code: string;
   createdAt?: string;
   isStarred: boolean;
+  tags?: Tag[];
+  description?: string | null;
 }
 
 export default function SnippetCard({
@@ -43,12 +53,15 @@ export default function SnippetCard({
   code,
   createdAt,
   isStarred,
+  tags = [],
+  description,
 }: SnippetCardProps) {
   const [copied, setCopied] = useState(false);
   const [starred, setStarred] = useState(isStarred);
+  const [currentTags, setCurrentTags] = useState<Tag[]>(tags);
 
   const handleCopy = async (e: React.MouseEvent) => {
-    e.preventDefault(); // Prevent navigation
+    e.preventDefault();
     e.stopPropagation();
     try {
       await navigator.clipboard.writeText(code);
@@ -75,6 +88,21 @@ export default function SnippetCard({
               {language.toUpperCase()}{" "}
               {createdAt && `• ${new Date(createdAt).toLocaleDateString()}`}
             </CardDescription>
+            {description && (
+              <p className="text-xs text-gray-600 dark:text-zinc-500 mt-1 line-clamp-2">
+                {description}
+              </p>
+            )}
+            {currentTags.length > 0 && (
+              <div className="flex flex-wrap gap-1 mt-2">
+                {currentTags.slice(0, 3).map((tag) => (
+                  <TagBadge key={tag.id} tag={tag} size="sm" />
+                ))}
+                {currentTags.length > 3 && (
+                  <span className="text-xs text-gray-500 dark:text-zinc-500">+{currentTags.length - 3}</span>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="flex items-center gap-1" onClick={(e) => e.preventDefault()}>
@@ -116,6 +144,23 @@ export default function SnippetCard({
                 className="bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-zinc-300"
               >
                 <div className="flex items-center justify-center gap-2 px-2 py-1">
+                  <TagManager
+                    snippetId={id}
+                    currentTags={currentTags}
+                    onUpdate={setCurrentTags}
+                    trigger={
+                      <button className="flex items-center gap-2 px-3 py-1.5 text-sm hover:bg-gray-100 dark:hover:bg-zinc-800 rounded transition-colors">
+                        <TagIcon className="w-4 h-4" />
+                        Tags
+                      </button>
+                    }
+                  />
+
+                  <Separator
+                    orientation="vertical"
+                    className="h-5 bg-gray-200 dark:bg-zinc-800 w-px"
+                  />
+
                   <StarButton
                     snippetId={id}
                     initialStarred={starred}
