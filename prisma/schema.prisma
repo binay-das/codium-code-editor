@@ -4,12 +4,12 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  // url      = env("DATABASE_URL")
 }
 
 model User {
   id        String   @id @default(cuid())
-  userId    String   @unique // Clerk user ID
+  userId    String   @unique 
   email     String   @unique
   name      String
 
@@ -32,22 +32,25 @@ model CodeExecution {
 }
 
 model Snippet {
-  id        String   @id @default(cuid())
-  userId    String
-  title     String
-  language  String
-  code      String
-  userName  String
-  isStarred Boolean  @default(false) 
-  isShareable Boolean @default(false) 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now()) 
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  description String? 
+  language    String
+  code        String
+  userName    String
+  isStarred   Boolean  @default(false) 
+  isShareable Boolean  @default(false) 
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt @default(now()) 
 
   user     User             @relation(fields: [userId], references: [userId], onDelete: Cascade)
   comments SnippetComment[]
-
+  tags     Tag[]           
   @@unique([userId, title])
   @@index([userId])
+  @@index([language])       
+  @@index([isStarred])      
 }
 
 model SnippetComment {
@@ -63,3 +66,13 @@ model SnippetComment {
   @@index([snippetId])
 }
 
+model Tag {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  color     String    @default("#6366f1") 
+  createdAt DateTime  @default(now())
+  
+  snippets  Snippet[]
+  
+  @@index([name])
+}
