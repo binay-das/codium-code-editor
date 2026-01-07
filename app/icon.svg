@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <style>
+    /* Light */
+    .bg { fill: #F3F4F6; }
+    .block { stroke: #2563EB; fill: none; }
+
+    /* Dark */
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #1F2937; }
+      .block { stroke: #60A5FA; }
+    }
+  </style>
+
+  <!-- Background -->
+  <rect width="128" height="128" rx="28" class="bg"></rect>
+
+  <!-- Blocks -->
+  <g transform="translate(34 34)" stroke-width="6" stroke-linejoin="round">
+    <!-- Top-left -->
+    <rect x="0" y="0" width="26" height="26" rx="4" class="block"></rect>
+
+    <!-- Top-right (offset outward) -->
+    <rect x="36" y="-10" width="26" height="26" rx="4" class="block"></rect>
+
+    <!-- Bottom-left (touching top-left) -->
+    <rect x="0" y="26" width="26" height="26" rx="4" class="block"></rect>
+
+    <!-- Bottom-right (touching others) -->
+    <rect x="26" y="26" width="26" height="26" rx="4" class="block"></rect>
+  </g>
+</svg>
