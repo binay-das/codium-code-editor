@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const { language, code, title } = await req.json();
+        const { language, code, title, description, tagIds } = await req.json();
 
         const existingSnippet = await prisma.snippet.findFirst({
             where: {
@@ -29,10 +29,19 @@ export async function POST(req: NextRequest) {
             data: {
                 userId: user.userId,
                 title,
+                description: description || null,
                 language,
                 code,
                 userName: user.name,
+                tags: tagIds && Array.isArray(tagIds) && tagIds.length > 0
+                    ? {
+                        connect: tagIds.map((id: string) => ({ id }))
+                    }
+                    : undefined
             },
+            include: {
+                tags: true
+            }
         });
 
         return NextResponse.json(newSnippet, { status: 201 });
