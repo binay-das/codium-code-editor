@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import Header from "@/components/new-snippet/Header";
 import EditorPanel from "@/components/new-snippet/EditorPanel";
 import OutputPanel from "@/components/new-snippet/OutputPanel";
+import StdinPanel from "@/components/new-snippet/StdinPanel";
 import { currentUser } from "@clerk/nextjs/server";
 
 export default async function SnippetDetailPage({
@@ -29,14 +30,8 @@ export default async function SnippetDetailPage({
 
     const isOwner = user?.id === snippet.userId;
 
-    if (!isOwner && !snippet.isShareable) {
-        // Option: return custom access denied page or simple notFound
-        // For security through obscurity, notFound() is often better if we want to hide existence
-        // But here we likely want to say "Private Snippet".
-        // Let's stick to notFound() based on the plan, or a simple "This snippet is private" message.
-        // User request didn't specify, but safer to just notFound or throw 403.
-        // Plan said: "If false, return notFound() (or custom access denied)."
-        // I will use notFound() for now.
+    if (!isOwner && !snippet.isShareable) { 
+        
         notFound();
     }
 
@@ -46,12 +41,13 @@ export default async function SnippetDetailPage({
 
             <main className="max-w-7xl mx-auto px-4 py-6">
                 <div className="grid lg:grid-cols-2 gap-6">
-                    <div className="rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 dark:backdrop-blur-sm p-4 transition-colors">
+                    <div className="flex flex-col gap-4 rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 dark:backdrop-blur-sm p-4 transition-colors">
                         <EditorPanel
                             initialCode={snippet.code}
                             initialLanguage={snippet.language}
                             readOnly={!isOwner}
                         />
+                        <StdinPanel />
                     </div>
 
                     <div className="rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 dark:backdrop-blur-sm p-4 transition-colors">

@@ -3,6 +3,7 @@
 import Header from "@/components/new-snippet/Header";
 import EditorPanel from "@/components/new-snippet/EditorPanel";
 import OutputPanel from "@/components/new-snippet/OutputPanel";
+import StdinPanel from "@/components/new-snippet/StdinPanel";
 
 export default function NewSnippetPage() {
   return (
@@ -11,8 +12,9 @@ export default function NewSnippetPage() {
 
       <main className="max-w-7xl mx-auto px-4 py-6">
         <div className="grid lg:grid-cols-2 gap-6">
-          <div className="rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#111827] shadow-sm p-4 transition-colors">
+          <div className="flex flex-col gap-4 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#111827] shadow-sm p-4 transition-colors">
             <EditorPanel />
+            <StdinPanel />
           </div>
           <div className="rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#111827] shadow-sm p-4 transition-colors">
             <OutputPanel />
