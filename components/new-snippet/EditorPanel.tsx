@@ -69,7 +69,7 @@ export default function EditorPanel({ initialCode, initialLanguage, readOnly = f
         </span>
       </div>
 
-      <div className="flex-1 min-h-[60vh]">
+      <div className="relative h-[600px] overflow-hidden">
         <Editor
           height="100%"
           language={LANGUAGE_CONFIG[language].monacoLanguage}
