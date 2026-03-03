@@ -104,13 +104,28 @@ export const useCodeEditorStore = create<CodeEditorState>((set, get) => ({
 
       const data = await response.json();
 
-      if (data.run?.code !== 0) {
-        set({ error: data.run.stderr || data.run.output });
+      console.log("data back from piston:", data);
+
+      if (data.message) {
+        set({ error: data.message, isRunning: false });
+        return;
+      }
+
+      if (data.compile && data.compile.code !== 0) {
+        const msg = data.compile.stderr || data.compile.output;
+        set({ error: msg });
+        return;
+      }
+
+      if (data.run && data.run.code !== 0) {
+        const msg = data.run.stderr || data.run.output;
+        set({ error: msg });
         return;
       }
 
       set({ output: data.run.output.trim() });
-    } catch {
+    } catch (err) {
+      console.error("Error running code:", err);
       set({ error: "Error running code" });
     } finally {
       set({ isRunning: false });
