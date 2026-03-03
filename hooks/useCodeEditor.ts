@@ -79,7 +79,7 @@ export const useCodeEditorStore = create<CodeEditorState>((set, get) => ({
   getCode: () => get().editor?.getValue() || "",
 
   runCode: async () => {
-    const { language, getCode } = get();
+    const { language, getCode, stdin } = get();
     const code = getCode();
 
     if (!code) {
@@ -98,6 +98,7 @@ export const useCodeEditorStore = create<CodeEditorState>((set, get) => ({
           language: runtime.language,
           version: runtime.version,
           files: [{ content: code }],
+          stdin,
         }),
       });
 
