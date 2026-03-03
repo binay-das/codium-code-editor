@@ -6,6 +6,7 @@ interface CodeEditorState {
   language: string;
   theme: string;
   fontSize: number;
+  stdin: string;
   editor: monaco.editor.IStandaloneCodeEditor | null;
   output: string;
   error: string | null;
@@ -15,6 +16,7 @@ interface CodeEditorState {
   setLanguage: (language: string) => void;
   setTheme: (theme: string) => void;
   setFontSize: (fontSize: number) => void;
+  setStdin: (stdin: string) => void;
 
   runCode: () => Promise<void>;
   getCode: () => string;
@@ -42,6 +44,7 @@ const getInitialState = (): Pick<
 export const useCodeEditorStore = create<CodeEditorState>((set, get) => ({
   ...getInitialState(),
   editor: null,
+  stdin: "",
   output: "",
   error: null,
   isRunning: false,
@@ -69,6 +72,8 @@ export const useCodeEditorStore = create<CodeEditorState>((set, get) => ({
     localStorage.setItem("editor-font-size", size.toString());
     set({ fontSize: size });
   },
+
+  setStdin: (stdin: string) => set({ stdin }),
 
 
   getCode: () => get().editor?.getValue() || "",
