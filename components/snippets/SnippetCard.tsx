@@ -74,7 +74,7 @@ export default function SnippetCard({
   };
 
   return (
-    <Card className="group relative border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/30 hover:bg-gray-50 dark:hover:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-all rounded-xl overflow-hidden">
+    <Card className="group relative border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/30 hover:bg-gray-50 dark:hover:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 rounded-xl overflow-hidden">
       <Link href={`/snippets/${id}`} className="block h-full w-full">
         <CardHeader className="pb-3 flex flex-row items-center justify-between">
           <div className="space-y-1">
@@ -84,8 +84,10 @@ export default function SnippetCard({
               </div>
               {title}
             </CardTitle>
-            <CardDescription className="text-xs text-gray-500 dark:text-zinc-400">
-              {language.toUpperCase()}{" "}
+            <CardDescription className="text-xs text-gray-500 dark:text-zinc-400 flex items-center gap-1.5">
+              <span className="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-wide bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-zinc-400 border border-gray-200 dark:border-zinc-700 uppercase">
+                {language}
+              </span>
               {createdAt && `• ${new Date(createdAt).toLocaleDateString()}`}
             </CardDescription>
             {description && (
@@ -180,9 +182,12 @@ export default function SnippetCard({
         </CardHeader>
 
         <CardContent>
-          <pre className="bg-gray-100 dark:bg-black/30 border border-gray-200 dark:border-zinc-800 text-sm rounded-lg p-3 text-gray-800 dark:text-zinc-300 font-mono max-h-48 overflow-hidden whitespace-pre-wrap relative">
-            <code>{code.length > 300 ? `${code.slice(0, 300)}...` : code}</code>
-          </pre>
+          <div className="relative">
+            <pre className="bg-gray-100 dark:bg-black/30 border border-gray-200 dark:border-zinc-800 text-sm rounded-lg p-3 text-gray-800 dark:text-zinc-300 font-mono max-h-40 overflow-hidden whitespace-pre-wrap">
+              <code>{code.length > 300 ? `${code.slice(0, 300)}...` : code}</code>
+            </pre>
+            <div className="absolute bottom-0 left-0 right-0 h-10 rounded-b-lg bg-linear-to-t from-gray-100 dark:from-black/30 to-transparent pointer-events-none" />
+          </div>
         </CardContent>
       </Link>
     </Card>
