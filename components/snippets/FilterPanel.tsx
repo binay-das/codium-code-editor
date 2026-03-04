@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDownAZ, ArrowUpAZ, Calendar, Star, X } from "lucide-react";
+import { ArrowDownAZ, ArrowUpAZ, Calendar, Star, SlidersHorizontal, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -61,19 +61,25 @@ export default function FilterPanel({
 
     return (
         <div className="w-full lg:w-64 space-y-6 p-4 rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+                <SlidersHorizontal className="h-4 w-4 text-gray-500 dark:text-zinc-400" />
                 <h3 className="font-semibold text-gray-900 dark:text-white">Filters</h3>
                 {hasActiveFilters && (
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={onClearFilters}
-                        className="h-7 text-xs text-gray-500 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white"
-                    >
-                        Clear all
-                    </Button>
+                    <span className="ml-auto flex h-4 w-4 items-center justify-center rounded-full bg-blue-500 text-[10px] font-bold text-white">
+                        ●
+                    </span>
                 )}
             </div>
+            {hasActiveFilters && (
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={onClearFilters}
+                    className="h-7 text-xs text-gray-500 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white"
+                >
+                    <X className="h-3 w-3 mr-1" />Clear
+                </Button>
+            )}
 
             <Separator className="bg-gray-200 dark:bg-zinc-800" />
 
@@ -145,8 +151,11 @@ export default function FilterPanel({
                                     variant={selectedLanguage === lang ? "secondary" : "ghost"}
                                     size="sm"
                                     onClick={() => onLanguageChange(lang)}
-                                    className="w-full justify-start text-sm capitalize"
+                                    className="w-full justify-start text-sm capitalize gap-2"
                                 >
+                                    {selectedLanguage === lang && (
+                                        <span className="h-1.5 w-1.5 rounded-full bg-blue-500 shrink-0" />
+                                    )}
                                     {lang}
                                 </Button>
                             ))}
