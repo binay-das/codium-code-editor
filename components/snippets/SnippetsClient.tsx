@@ -7,7 +7,7 @@ import SearchBar from "@/components/snippets/SearchBar";
 import FilterPanel, { SortOption } from "@/components/snippets/FilterPanel";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { PlusCircle } from "lucide-react";
+import { FileCode2, Loader2, PlusCircle } from "lucide-react";
 
 interface Tag {
     id: string;
@@ -134,11 +134,30 @@ export default function SnippetsClient({ initialSnippets }: SnippetsClientProps)
 
                 <div className="flex-1">
                     {isLoading ? (
-                        <div className="flex items-center justify-center py-20">
-                            <div className="text-gray-500 dark:text-zinc-400">Loading...</div>
+                        <div className="grid gap-8 sm:grid-cols-1 lg:grid-cols-2 animate-pulse">
+                            {[...Array(4)].map((_, i) => (
+                                <div
+                                    key={i}
+                                    className="rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/30 p-5 space-y-4"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <div className="h-8 w-8 rounded-lg bg-gray-200 dark:bg-zinc-800" />
+                                        <div className="space-y-1.5 flex-1">
+                                            <div className="h-4 w-2/3 rounded bg-gray-200 dark:bg-zinc-800" />
+                                            <div className="h-3 w-1/3 rounded bg-gray-100 dark:bg-zinc-700" />
+                                        </div>
+                                    </div>
+                                    <div className="rounded-lg bg-gray-100 dark:bg-zinc-800/50 h-28" />
+                                </div>
+                            ))}
                         </div>
                     ) : snippets.length === 0 ? (
                         <div className="flex flex-col items-center justify-center rounded-2xl border border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-900/50 py-20 text-center">
+                            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-100 dark:bg-zinc-800 mb-5">
+                                {searchQuery || selectedLanguage || selectedTags.length > 0 || showStarred
+                                    ? <Loader2 className="h-7 w-7 text-gray-400 dark:text-zinc-500" />
+                                    : <FileCode2 className="h-7 w-7 text-gray-400 dark:text-zinc-500" />}
+                            </div>
                             <p className="text-gray-600 dark:text-zinc-400 text-lg mb-6">
                                 {searchQuery || selectedLanguage || selectedTags.length > 0 || showStarred
                                     ? "No snippets match your filters."
