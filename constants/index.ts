@@ -353,6 +353,19 @@ print(f"Sum of numbers: {numbers_sum}")`,
 
 
 
+export const INPUT_KEYWORDS: Record<string, string[]> = {
+    javascript: ["readline", "createInterface", "process.stdin"],
+    typescript: ["readline", "createInterface", "process.stdin"],
+    python: ["input(", "sys.stdin", "fileinput"],
+    java: ["Scanner", "BufferedReader", "InputStreamReader", "System.in"],
+    go: ["fmt.Scan", "bufio.NewReader", "os.Stdin"],
+    rust: ["stdin()", "read_line", "BufRead"],
+    cpp: ["cin", "getline", "scanf", "gets("],
+    csharp: ["Console.ReadLine", "Console.Read", "Console.In"],
+    ruby: ["gets", "STDIN", "readline"],
+    swift: ["readLine", "CommandLine"],
+};
+
 export const JUDGE0_LANGUAGE_IDS: Record<string, number> = {
     javascript: 93,
     typescript: 94,
