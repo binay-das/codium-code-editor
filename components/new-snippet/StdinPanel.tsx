@@ -9,7 +9,7 @@ export default function StdinPanel() {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="w-full rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#0d0d12] shadow-sm overflow-hidden transition-colors duration-300">
+        <div data-stdin-panel className="w-full rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#0d0d12] shadow-sm overflow-hidden transition-colors duration-300">
             <button
                 onClick={() => setIsOpen((v) => !v)}
                 className="w-full flex items-center gap-2 px-4 py-2 text-left

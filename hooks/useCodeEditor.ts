@@ -21,6 +21,7 @@ interface CodeEditorState {
   setStdin: (stdin: string) => void;
 
   runCode: () => Promise<void>;
+  runCodeWithStdin: (overrideStdin?: string) => Promise<void>;
   getCode: () => string;
 }
 
@@ -80,8 +81,11 @@ export const useCodeEditorStore = create<CodeEditorState>((set, get) => ({
 
   getCode: () => get().editor?.getValue() || "",
 
-  runCode: async () => {
+  runCode: async () => get().runCodeWithStdin(),
+
+  runCodeWithStdin: async (overrideStdin?: string) => {
     const { language, getCode, stdin } = get();
+    const effectiveStdin = overrideStdin !== undefined ? overrideStdin : stdin;
     const code = getCode();
 
     if (!code) {
@@ -119,7 +123,7 @@ export const useCodeEditorStore = create<CodeEditorState>((set, get) => ({
         body: JSON.stringify({
           language_id: languageId,
           source_code: code,
-          stdin: stdin,
+          stdin: effectiveStdin,
         }),
       });
 
@@ -152,10 +156,10 @@ export const useCodeEditorStore = create<CodeEditorState>((set, get) => ({
         return;
       }
 
-      if (data.stdout?.includes("NoSuchElementException")) {
-        set({ error: "No input provided. Please enter input in stdin." });
-        return;
-      }
+      // if (data.stdout?.includes("NoSuchElementException")) {
+      //   set({ error: "No input provided. Please enter input in stdin." });
+      //   return;
+      // }
 
       set({ output: (data.stdout || "").trim() });
     } catch (err) {
