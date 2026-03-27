@@ -152,6 +152,11 @@ export const useCodeEditorStore = create<CodeEditorState>((set, get) => ({
         return;
       }
 
+      if (data.stdout?.includes("NoSuchElementException")) {
+        set({ error: "No input provided. Please enter input in stdin." });
+        return;
+      }
+
       set({ output: (data.stdout || "").trim() });
     } catch (err) {
       console.error("Error running code:", err);
