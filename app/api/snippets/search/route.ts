@@ -17,6 +17,7 @@ export async function GET(req: NextRequest) {
         const sort = searchParams.get('sort') || 'date-desc';
 
         // build where clause
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const where: any = {
             userId: user.userId,
         };
@@ -47,6 +48,7 @@ export async function GET(req: NextRequest) {
             };
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let orderBy: any = {};
         switch (sort) {
             case 'date-asc':

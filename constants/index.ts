@@ -332,3 +332,36 @@ print(f"Sum of numbers: {numbers_sum}")`,
   print("Sum of numbers: \\(sum)")`,
     },
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export const JUDGE0_LANGUAGE_IDS: Record<string, number> = {
+    javascript: 93,
+    typescript: 94,
+    python: 92,
+    java: 91,
+    go: 95,
+    rust: 73,
+    cpp: 54,
+    csharp: 51,
+    ruby: 72,
+    swift: 83,
+};

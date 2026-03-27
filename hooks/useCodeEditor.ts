@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import type * as monaco from "monaco-editor";
-import { LANGUAGE_CONFIG } from "@/constants";
+import { JUDGE0_LANGUAGE_IDS } from "@/constants";
+
+
 
 interface CodeEditorState {
   language: string;
@@ -84,46 +86,73 @@ export const useCodeEditorStore = create<CodeEditorState>((set, get) => ({
 
     if (!code) {
       set({ error: "Please enter some code" });
+      console.log("code is empty");
       return;
     }
 
     set({ isRunning: true, error: null, output: "" });
 
     try {
-      const runtime = LANGUAGE_CONFIG[language].pistonRuntime;
-      const response = await fetch("https://emkc.org/api/v2/piston/execute", {
+      const languageId = JUDGE0_LANGUAGE_IDS[language];
+      if (!languageId) {
+        set({ error: `Language ${language} is not supported by the execution engine.` });
+        return;
+      }
+
+
+      // const response = await fetch("https://emkc.org/api/v2/piston/execute", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({
+      //     language: runtime.language,
+      //     version: runtime.version,
+      //     files: [{ content: code }],
+      //     stdin,
+      //   }),
+      // });
+
+      const response = await fetch("https://ce.judge0.com/submissions?wait=true", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
-          language: runtime.language,
-          version: runtime.version,
-          files: [{ content: code }],
-          stdin,
+          language_id: languageId,
+          source_code: code,
+          stdin: stdin,
         }),
       });
 
       const data = await response.json();
 
-      console.log("data back from piston:", data);
+      console.log("data back from judge0: ", data);
+
+      if (data.error) {
+        set({ error: data.error, isRunning: false });
+        return;
+      }
+
+      if (data.status?.id === 6) {
+        set({ error: data.compile_output || "Compilation Error" });
+        return;
+      }
+
+      if (data.stderr) {
+        set({ error: data.stderr });
+        return;
+      }
+
+      if (data.status?.id >= 7 && data.status?.id <= 12) {
+        set({ error: data.message || "Runtime Error" });
+        return;
+      }
 
       if (data.message) {
-        set({ error: data.message, isRunning: false });
+        set({ error: data.message });
         return;
       }
 
-      if (data.compile && data.compile.code !== 0) {
-        const msg = data.compile.stderr || data.compile.output;
-        set({ error: msg });
-        return;
-      }
-
-      if (data.run && data.run.code !== 0) {
-        const msg = data.run.stderr || data.run.output;
-        set({ error: msg });
-        return;
-      }
-
-      set({ output: data.run.output.trim() });
+      set({ output: (data.stdout || "").trim() });
     } catch (err) {
       console.error("Error running code:", err);
       set({ error: "Error running code" });

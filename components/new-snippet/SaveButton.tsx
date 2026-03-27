@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Save, Tag as TagIcon } from "lucide-react";
+import { Save } from "lucide-react";
 import { useCodeEditorStore } from "@/hooks/useCodeEditor";
 import axios from "axios";
 import {
